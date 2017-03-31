@@ -5,6 +5,13 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     [System.Serializable]
+    public struct Sounds
+    {
+        public AudioClip fire;
+    }
+    [SerializeField] Sounds _sounds;
+
+    [System.Serializable]
     public struct Stats
     {
         public float    fireRate;
@@ -97,6 +104,12 @@ public class Weapon : MonoBehaviour
 
             _weaponAmmoCurrent--;
         }
+
+        // Play fire sound
+        AudioSource audioSource = GetComponent<AudioSource>();
+        if (audioSource.isPlaying) audioSource.Stop();
+        audioSource.pitch = Random.Range(0.98f, 1.02f);
+        audioSource.PlayOneShot(_sounds.fire);
 
         _isFiring = true;
         _fireProgress = 0;
