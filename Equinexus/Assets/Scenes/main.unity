@@ -202,11 +202,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4072208800614930, guid: 332051b411f49e64c9bb958ebc559c28, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4072208800614930, guid: 332051b411f49e64c9bb958ebc559c28, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.118
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4072208800614930, guid: 332051b411f49e64c9bb958ebc559c28, type: 2}
       propertyPath: m_LocalPosition.z
@@ -548,7 +548,7 @@ MonoBehaviour:
     moveSpeed: 30
     turnSpeed: 11
     throwStrength: 1000
-  _weaponsHolder: {fileID: 1517201796}
+  _hand: {fileID: 1517201796}
 --- !u!135 &964594742
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -732,7 +732,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1517201797}
   m_Layer: 0
-  m_Name: Weapons Holder
+  m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -745,7 +745,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1517201796}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 72620977}

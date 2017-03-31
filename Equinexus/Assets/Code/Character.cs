@@ -38,7 +38,7 @@ public class Character : MonoBehaviour
     Stats _stats;
 
     [SerializeField]
-    GameObject _weaponsHolder;
+    GameObject _hand;
 
     List<GameObject> _weaponsInReach = new List<GameObject>();
 
@@ -64,40 +64,42 @@ public class Character : MonoBehaviour
         // Shooting
         {
             if (input.shoot)
-                for (int i = 0; i < _weaponsHolder.transform.childCount; i++)
-                    _weaponsHolder.transform.GetChild(i).gameObject.GetComponent<Weapon>().TryShoot();
+                for (int i = 0; i < _hand.transform.childCount; i++)
+                    _hand.transform.GetChild(i).gameObject.GetComponent<Weapon>().TryShoot();
         }
 
         // Throwing weapons 
         {
             if (input.throwWeapon)
-                for (int i = 0; i < _weaponsHolder.transform.childCount; i++)
-                {
-                    GameObject currentWeaponGO = _weaponsHolder.transform.GetChild(i).gameObject;
+            {
+                GameObject currentWeaponGO = _hand.transform.GetChild(0).gameObject;
 
-                    currentWeaponGO.GetComponent<Rigidbody>().isKinematic = false;
-                    currentWeaponGO.GetComponent<MeshCollider>().enabled = true;
+                currentWeaponGO.GetComponent<Rigidbody>().isKinematic = false;
+                currentWeaponGO.GetComponent<MeshCollider>().enabled = true;
 
-                    currentWeaponGO.transform.SetParent(transform.parent);
-                    currentWeaponGO.GetComponent<Rigidbody>().AddForce(transform.forward * _stats.throwStrength);
-                }
+                currentWeaponGO.transform.SetParent(transform.parent);
+                currentWeaponGO.GetComponent<Rigidbody>().AddForce(transform.forward * _stats.throwStrength);
+            }
         }
 
         // Pick up weapons
         {
             if (input.use && _weaponsInReach.Count > 0)
             {
-                for (int i = 0; i < _weaponsHolder.transform.childCount; i++)
+                if (_hand.transform.childCount > 0)
                 {
-                    GameObject currentWeaponGO = _weaponsHolder.transform.GetChild(i).gameObject;
-
+                    // Swap weapons
+                    GameObject currentWeaponGO = _hand.transform.GetChild(0).gameObject;
                     currentWeaponGO.GetComponent<Rigidbody>().isKinematic = false;
                     currentWeaponGO.GetComponent<MeshCollider>().enabled = true;
+                    currentWeaponGO.transform.SetParent(transform.parent);
+                    currentWeaponGO.GetComponent<Rigidbody>().AddForce((transform.forward * 100) + (transform.right * 50));
                 }
 
+                // Pick up weapon
                 _weaponsInReach[0].GetComponent<Rigidbody>().isKinematic = true;
                 _weaponsInReach[0].GetComponent<MeshCollider>().enabled = false;
-                _weaponsInReach[0].transform.SetParent(_weaponsHolder.transform);
+                _weaponsInReach[0].transform.SetParent(_hand.transform);
                 _weaponsInReach[0].transform.localEulerAngles = new Vector3(0, 0, 0);
                 _weaponsInReach[0].transform.localPosition = new Vector3(0, 0, 0);
                 _weaponsInReach.RemoveAt(0);
