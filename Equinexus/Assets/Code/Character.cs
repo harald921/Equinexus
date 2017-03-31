@@ -9,17 +9,19 @@ public class Character : MonoBehaviour
         public Quaternion targetRotation;
         public Vector3 moveDirection;
 
-        public bool isShooting;
-        public bool isThrowingWeapon;
-        public bool isAiming;
+        public bool shoot;
+        public bool throwWeapon;
+        public bool aim;
+        public bool use;
 
-        public Input(Quaternion inTargetRotation, Vector3 inMoveDirection, bool inIsShooting, bool inIsThrowingWeapon, bool inIsAiming)
+        public Input(Quaternion inTargetRotation, Vector3 inMoveDirection, bool inShoot, bool inThrowWeapon, bool inAim, bool inUse)
         {
-            targetRotation      = inTargetRotation;
-            moveDirection       = inMoveDirection;
-            isShooting          = inIsShooting;
-            isThrowingWeapon    = inIsThrowingWeapon;
-            isAiming            = inIsAiming;
+            targetRotation = inTargetRotation;
+            moveDirection = inMoveDirection;
+            shoot = inShoot;
+            throwWeapon = inThrowWeapon;
+            aim = inAim;
+            use = inUse;
         }
     }
     public Input input;
@@ -32,9 +34,13 @@ public class Character : MonoBehaviour
         public float turnSpeed;
         public float throwStrength;
     }
-    [SerializeField] Stats _stats;
+    [SerializeField]
+    Stats _stats;
 
-    [SerializeField] GameObject _weaponsHolder;
+    [SerializeField]
+    GameObject _weaponsHolder;
+
+    List<GameObject> _weaponsInReach = new List<GameObject>();
 
 
     void Update()
@@ -57,20 +63,58 @@ public class Character : MonoBehaviour
 
         // Shooting
         {
-            if (input.isShooting)
+            if (input.shoot)
                 for (int i = 0; i < _weaponsHolder.transform.childCount; i++)
                     _weaponsHolder.transform.GetChild(i).gameObject.GetComponent<Weapon>().TryShoot();
         }
 
         // Throwing weapons 
         {
-            if (input.isThrowingWeapon)
+            if (input.throwWeapon)
                 for (int i = 0; i < _weaponsHolder.transform.childCount; i++)
                 {
                     GameObject currentWeaponGO = _weaponsHolder.transform.GetChild(i).gameObject;
+
+                    currentWeaponGO.GetComponent<Rigidbody>().isKinematic = false;
+                    currentWeaponGO.GetComponent<MeshCollider>().enabled = true;
+
                     currentWeaponGO.transform.SetParent(transform.parent);
                     currentWeaponGO.GetComponent<Rigidbody>().AddForce(transform.forward * _stats.throwStrength);
                 }
         }
+
+        // Pick up weapons
+        {
+            if (input.use && _weaponsInReach.Count > 0)
+            {
+                for (int i = 0; i < _weaponsHolder.transform.childCount; i++)
+                {
+                    GameObject currentWeaponGO = _weaponsHolder.transform.GetChild(i).gameObject;
+
+                    currentWeaponGO.GetComponent<Rigidbody>().isKinematic = false;
+                    currentWeaponGO.GetComponent<MeshCollider>().enabled = true;
+                }
+
+                _weaponsInReach[0].GetComponent<Rigidbody>().isKinematic = true;
+                _weaponsInReach[0].GetComponent<MeshCollider>().enabled = false;
+                _weaponsInReach[0].transform.SetParent(_weaponsHolder.transform);
+                _weaponsInReach[0].transform.localEulerAngles = new Vector3(0, 0, 0);
+                _weaponsInReach[0].transform.localPosition = new Vector3(0, 0, 0);
+                _weaponsInReach.RemoveAt(0);
+            }
+        }
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.GetComponent<Weapon>())
+            _weaponsInReach.Add(col.gameObject);
+    }
+
+    void OnTriggerExit(Collider col)
+    {
+        if (col.GetComponent<Weapon>())
+            if (_weaponsInReach.Contains(col.gameObject))
+                _weaponsInReach.Remove(col.gameObject);
     }
 }
