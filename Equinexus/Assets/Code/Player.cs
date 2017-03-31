@@ -83,4 +83,5 @@ public class Player : MonoBehaviour
   *  - Sound: Add footsteps for player and enemies
   *  - Sound: Add shooting sounds for weapons
   *  - Sound: Add reload sounds for weapons
+  *  - Sound: Add death sounds for enemies
   */
