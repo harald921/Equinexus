@@ -46,6 +46,7 @@ public class PlayerInput : MonoBehaviour
 /*  // TODO // 
  *  
  *  - Structure: Child projectiles to a GameObject when they get spawned
+ *  - Structure: Move all the stuff in Character.HandleInput into own methods so that DRY can be applied
  *  
  *  - Enemies: Implement enemy that shoots at the player from a distance
  *  - Enemies: Implement rusher enemy
@@ -62,10 +63,9 @@ public class PlayerInput : MonoBehaviour
  *  - Weapons: Make weapon recoil when shot
  *  - Weapons: Add bolt action, shotgun, desert eagle and minigun
  *  - Weapons: Add casings that land on the ground around the player
- *  - Weapons: Make it possible to dual wield weapons
  *  
  *  - Sound: Add footsteps for player and enemies
  *  - Sound: Add shooting sounds for weapons
  *  - Sound: Add reload sounds for weapons
- *  - Sound: Add death sounds for enemies
+ *  - Sound: Add death sounds for enemies and player
  */
