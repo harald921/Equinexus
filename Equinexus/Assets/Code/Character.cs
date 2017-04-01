@@ -32,8 +32,8 @@ public class Character : MonoBehaviour
     public struct Stats
     {
         public float health;
-        public float moveSpeed;
-        public float turnSpeed;
+        public float baseMoveSpeed;
+        public float baseTurnSpeed;
         public float throwStrength;
     }
     [SerializeField]
@@ -67,12 +67,12 @@ public class Character : MonoBehaviour
         // Movement
         {
             Rigidbody rigidbody = GetComponent<Rigidbody>();
-            rigidbody.AddForce(input.moveDirection.normalized * _stats.moveSpeed);
+            rigidbody.AddForce(input.moveDirection.normalized * _stats.baseMoveSpeed);
         }
 
         // Aiming
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, input.targetRotation, _stats.turnSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, input.targetRotation, _stats.baseTurnSpeed * Time.deltaTime);
         }
 
         // Shooting
