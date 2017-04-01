@@ -53,6 +53,19 @@ public class Character : MonoBehaviour
 
     void HandleInput()
     {
+        // Aiming
+        {
+            if (input.aim && _hand.transform.childCount > 0)
+            {
+                _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = true;
+            }
+
+            else
+            {
+                _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = false;
+            }
+        }
+
         // Movement
         {
             Rigidbody rigidbody = GetComponent<Rigidbody>();
