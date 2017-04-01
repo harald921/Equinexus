@@ -8,6 +8,7 @@ public class Weapon : MonoBehaviour
     public struct Sounds
     {
         public AudioClip fire;
+        public AudioClip reload;
     }
     [SerializeField] Sounds _sounds;
 
@@ -119,9 +120,9 @@ public class Weapon : MonoBehaviour
 
             newProjectileRB.AddForce(newProjectileDirection * newProjectileVelocityModifier);
 
-            _weaponAmmoCurrent--;
         }
-
+        _weaponAmmoCurrent--;
+        
         // Play fire sound
         AudioSource audioSource = GetComponent<AudioSource>();
         if (audioSource.isPlaying) audioSource.Stop();
@@ -142,6 +143,10 @@ public class Weapon : MonoBehaviour
         // Return if the weapon is already being reloaded
         if (_isReloading)
             return;
+
+        // Play reload sound
+        GetComponent<AudioSource>().pitch = Random.Range(0.98f, 1.02f);
+        GetComponent<AudioSource>().PlayOneShot(_sounds.reload);
 
         _isReloading = true;
         _reloadProgress = 0;
