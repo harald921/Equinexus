@@ -47,6 +47,7 @@ public class PlayerInput : MonoBehaviour
  *  
  *  - Structure: Child projectiles to a GameObject when they get spawned
  *  - Structure: Move all the stuff in Character.HandleInput into own methods so that DRY can be applied
+ *  - Structure: Clean up the PlayerUI script. Make it get called rather than the opposite
  *  
  *  - Enemies: Implement enemy that shoots at the player from a distance
  *  - Enemies: Implement rusher enemy
@@ -68,4 +69,8 @@ public class PlayerInput : MonoBehaviour
  *  - Sound: Add shooting sounds for weapons
  *  - Sound: Add reload sounds for weapons
  *  - Sound: Add death sounds for enemies and player
+ *  
+ *  - Map: Add "generator" which the player has to defend for it to charge up. When charged up, its script has a bool turned to true
+ *  - Map: Add door which can be set to listen for something (like a generator) before it opens
+ *  - Map: Add enemy spawners
  */
