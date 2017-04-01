@@ -24,8 +24,8 @@ public class Weapon : MonoBehaviour
         public float    projectileSpread;
         public float    velocityInconsistensy;
 
-        public int      damageMin;
-        public int      damageMax;
+        public float    damageMin;
+        public float    damageMax;
 
         public int      projectilesPerShot;
 
@@ -40,6 +40,8 @@ public class Weapon : MonoBehaviour
     }
 
     [SerializeField] Stats      _stats;
+    public Stats stats { get { return _stats; } }
+
     [SerializeField] GameObject _projectileGO;
 
     Transform _muzzleTransform;
@@ -117,6 +119,8 @@ public class Weapon : MonoBehaviour
             Vector3 newProjectileSpread = new Vector3(Random.Range(-_stats.projectileSpread, _stats.projectileSpread), 0, Random.Range(-_stats.projectileSpread, _stats.projectileSpread));
             Vector3 newProjectileDirection = _muzzleTransform.forward + newProjectileSpread;
             float newProjectileVelocityModifier = _stats.projectileSpeed + Random.Range(-_stats.velocityInconsistensy, _stats.velocityInconsistensy);
+
+            newProjectileGO.GetComponent<Projectile>().parentWeapon = this;
 
             newProjectileRB.AddForce(newProjectileDirection * newProjectileVelocityModifier);
 

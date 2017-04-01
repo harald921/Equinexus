@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1591705302759712}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.314}
+  m_LocalPosition: {x: 0, y: 0, z: 0.726}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4072208800614930}
@@ -243,7 +243,7 @@ MonoBehaviour:
     damageMin: 5
     damageMax: 10
     projectilesPerShot: 1
-    projectileSpeed: 9000
+    projectileSpeed: 6000
     projectileLifeTime: 0.8
     weaponAmmoMax: 30
     reloadSpeed: 0.6

@@ -48,6 +48,7 @@ public class PlayerInput : MonoBehaviour
  *  - Structure: Child projectiles to a GameObject when they get spawned
  *  - Structure: Move all the stuff in Character.HandleInput into own methods so that DRY can be applied
  *  - Structure: Clean up the PlayerUI script. Make it get called rather than the opposite
+ *  - Structure: Add a vector of flags to Character, that holds stuff like "IS_AIMING" or "HURT" or whatever. Different states
  *  
  *  - Enemies: Implement enemy that shoots at the player from a distance
  *  - Enemies: Implement rusher enemy

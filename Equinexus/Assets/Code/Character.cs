@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+    [SerializeField]
+    int _team;
+    public int Team
+    {
+        get { return _team; }
+    }
+
     public struct Input
     {
         public Quaternion targetRotation;
@@ -46,6 +53,7 @@ public class Character : MonoBehaviour
 
     bool firstShot = true;
 
+
     void Update()
     {
         HandleInput();
@@ -66,7 +74,16 @@ public class Character : MonoBehaviour
         HandleWeaponPickUp();
     }
 
+    /* External Methods */
+    public void ModifyHealth(float healthModifier)
+    {
+        _stats.health += healthModifier;
 
+        if (_stats.health <= 0)
+            Destroy(gameObject);
+    }
+
+    /* Internal Methods */
     void HandleMovement()
     {
         Rigidbody rigidbody = GetComponent<Rigidbody>();
@@ -75,11 +92,9 @@ public class Character : MonoBehaviour
 
     void HandleAiming()
     {
-        if (_hand.transform.childCount > 0)
-        {
-            if (input.aim) _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = true;
-            else _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = false;
-        }
+        if (_hand)
+            if (_hand.transform.childCount > 0)
+                _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = input.aim;
     }
 
     void HandleRotation()
@@ -89,16 +104,21 @@ public class Character : MonoBehaviour
 
     void HandleShooting()
     {
-        if (input.shoot && _hand.transform.childCount > 0)
-            firstShot = _hand.transform.GetChild(0).gameObject.GetComponent<Weapon>().TryShoot(firstShot);
+        if (input.shoot)
+        {
+            if (_hand.transform.childCount > 0)
+                firstShot = _hand.transform.GetChild(0).gameObject.GetComponent<Weapon>().TryShoot(firstShot);
+        }
+
         else
             firstShot = true;
     }
 
     void HandleReloading()
     {
-        if (input.reload && _hand.transform.childCount > 0)
-            _hand.transform.GetChild(0).gameObject.GetComponent<Weapon>().TryReload();
+        if (input.reload)
+            if (_hand.transform.childCount > 0)
+                _hand.transform.GetChild(0).gameObject.GetComponent<Weapon>().TryReload();
     }
 
     void HandleWeaponThrowing()
@@ -107,6 +127,7 @@ public class Character : MonoBehaviour
         {
             if (_hand.transform.childCount < 1)
                 return;
+
             GameObject currentWeaponGO = _hand.transform.GetChild(0).gameObject;
 
             DropWeapon();
@@ -160,9 +181,6 @@ public class Character : MonoBehaviour
 
         _weaponsInReach.Remove(inWeaponToPickup);
     }
-
-
-
 
     void OnTriggerEnter(Collider col)
     {

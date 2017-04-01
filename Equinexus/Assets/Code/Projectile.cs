@@ -17,6 +17,9 @@ public class Projectile : MonoBehaviour
 
     float _currentLifeTime = 0;
 
+    Weapon _parentWeapon; // The weapon the projectile was fired from
+    public Weapon parentWeapon {  set { _parentWeapon = value; } }
+
     void Update()
     {
         if (!hasBeenSet)
@@ -24,5 +27,17 @@ public class Projectile : MonoBehaviour
 
         if ((_currentLifeTime += Time.deltaTime) >= _lifeTime)
             Destroy(gameObject);
+    }
+
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.isTrigger)
+            return;
+
+        Character hitCharacter = col.GetComponent<Character>();
+        if (hitCharacter)
+            hitCharacter.ModifyHealth(-Random.Range(_parentWeapon.stats.damageMin, _parentWeapon.stats.damageMax));
+
     }
 }

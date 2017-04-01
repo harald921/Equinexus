@@ -244,7 +244,7 @@ MonoBehaviour:
     damageMin: 5
     damageMax: 10
     projectilesPerShot: 1
-    projectileSpeed: 9000
+    projectileSpeed: 6000
     projectileLifeTime: 0.8
     weaponAmmoMax: 12
     reloadSpeed: 0.6
