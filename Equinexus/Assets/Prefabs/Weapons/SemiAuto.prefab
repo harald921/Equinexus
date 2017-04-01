@@ -233,10 +233,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sounds:
-    fire: {fileID: 8300000, guid: 1dfcd1237e7a24840b223ce0867df43d, type: 3}
+    fire: {fileID: 8300000, guid: 0826ba675a8aab84da8c1696f0fd8498, type: 3}
     reload: {fileID: 8300000, guid: 12a86da5c51b45e40bdc361f1113258f, type: 3}
   _stats:
-    fireRate: 3
+    fireRate: 5
     projectileSpread: 0.05
     velocityInconsistensy: 10
     damageMin: 5
