@@ -55,15 +55,13 @@ public class Character : MonoBehaviour
     {
         // Aiming
         {
-            if (input.aim && _hand.transform.childCount > 0)
+            if (_hand.transform.childCount > 0)
             {
-                _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = true;
+                if (input.aim) _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = true;
+                else           _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = false;
             }
 
-            else
-            {
-                _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = false;
-            }
+            
         }
 
         // Movement
@@ -100,6 +98,7 @@ public class Character : MonoBehaviour
 
                 currentWeaponGO.GetComponent<Rigidbody>().isKinematic = false;
                 currentWeaponGO.GetComponent<MeshCollider>().enabled = true;
+                _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = false;
 
                 currentWeaponGO.transform.SetParent(transform.parent);
                 currentWeaponGO.GetComponent<Rigidbody>().AddForce(transform.forward * _stats.throwStrength);
@@ -113,6 +112,7 @@ public class Character : MonoBehaviour
                 if (_hand.transform.childCount > 0)
                 {
                     // Swap weapons
+                    _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = false;
                     GameObject currentWeaponGO = _hand.transform.GetChild(0).gameObject;
                     currentWeaponGO.GetComponent<Rigidbody>().isKinematic = false;
                     currentWeaponGO.GetComponent<MeshCollider>().enabled = true;

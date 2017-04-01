@@ -51,8 +51,6 @@ public class PlayerInput : MonoBehaviour
  *  - Enemies: Implement rusher enemy
  *  - Enemies: Make enemies have two types, metal and biological. One weak to ballistic projectiles, the other to plasma projectiles
  * 
- *  - UI: Show bullets left in magazine + magazine size
- *  - UI: Make circular reload progress bar
  *  - UI: Make health bar for player and enemies
  *  
  *  - Effects: Add light that flashes when weapons fire
