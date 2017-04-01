@@ -13,8 +13,9 @@ public class Character : MonoBehaviour
         public bool throwWeapon;
         public bool aim;
         public bool use;
+        public bool reload;
 
-        public Input(Quaternion inTargetRotation, Vector3 inMoveDirection, bool inShoot, bool inThrowWeapon, bool inAim, bool inUse)
+        public Input(Quaternion inTargetRotation, Vector3 inMoveDirection, bool inShoot, bool inThrowWeapon, bool inAim, bool inUse, bool inReload)
         {
             targetRotation = inTargetRotation;
             moveDirection = inMoveDirection;
@@ -22,6 +23,7 @@ public class Character : MonoBehaviour
             throwWeapon = inThrowWeapon;
             aim = inAim;
             use = inUse;
+            reload = inReload;
         }
     }
     public Input input;
@@ -69,6 +71,12 @@ public class Character : MonoBehaviour
 
             else
                 firstShot = true;
+        }
+
+        // Reloading
+        {
+            if (input.reload && _hand.transform.childCount > 0)
+                _hand.transform.GetChild(0).gameObject.GetComponent<Weapon>().TryReload();
         }
 
         // Throwing weapons 

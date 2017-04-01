@@ -14,7 +14,7 @@ public class PlayerInput : MonoBehaviour
 
     void Update()
     {
-        Character.Input input = new Character.Input(Quaternion.identity, Vector3.zero, false, false, false, false);
+        Character.Input input = new Character.Input(Quaternion.identity, Vector3.zero, false, false, false, false, false);
 
         // Get shooting/aim input
         if (Input.GetMouseButton(0)) input.shoot   = true;
@@ -30,6 +30,7 @@ public class PlayerInput : MonoBehaviour
 
         input.throwWeapon = Input.GetKeyDown(KeyCode.G);
         input.use         = Input.GetKeyDown(KeyCode.E);
+        input.reload      = Input.GetKeyDown(KeyCode.R);
 
         // Calculate aim target
         Vector3 aimTarget    = UnityEngine.Input.mousePosition;
