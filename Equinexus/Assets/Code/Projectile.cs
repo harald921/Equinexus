@@ -39,5 +39,6 @@ public class Projectile : MonoBehaviour
         if (hitCharacter)
             hitCharacter.ModifyHealth(-Random.Range(_parentWeapon.stats.damageMin, _parentWeapon.stats.damageMax));
 
+        Destroy(gameObject);
     }
 }
