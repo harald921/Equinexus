@@ -102,6 +102,7 @@ public class Character : MonoBehaviour
 
                 currentWeaponGO.transform.SetParent(transform.parent);
                 currentWeaponGO.GetComponent<Rigidbody>().AddForce(transform.forward * _stats.throwStrength);
+                currentWeaponGO.GetComponent<Rigidbody>().AddTorque(transform.up * _stats.throwStrength);
             }
         }
 
