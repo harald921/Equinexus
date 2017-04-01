@@ -50,6 +50,12 @@ public class Weapon : MonoBehaviour
 
     int _weaponAmmoCurrent;
 
+
+    public int      GetAmmoMax()        { return _stats.weaponAmmoMax; }
+    public int      GetAmmoCurrent()    { return _weaponAmmoCurrent; }
+    public float    GetReloadProgress() {  return _reloadProgress; }
+
+
     void Start()
     {
         _muzzleTransform = transform.GetChild(0);
