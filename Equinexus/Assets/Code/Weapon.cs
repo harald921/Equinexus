@@ -11,6 +11,11 @@ public class Weapon : MonoBehaviour
     }
     [SerializeField] Sounds _sounds;
 
+    public enum FireMode
+    {
+        Automatic,
+        SemiAutomatic
+    }
     [System.Serializable]
     public struct Stats
     {
@@ -29,15 +34,16 @@ public class Weapon : MonoBehaviour
 
         public int      weaponAmmoMax;
         public float    reloadSpeed;
+
+        public FireMode fireMode;   
     }
 
     [SerializeField] Stats      _stats;
-    [SerializeField] GameObject  _projectileGO;
+    [SerializeField] GameObject _projectileGO;
 
     Transform _muzzleTransform;
 
-
-    bool _isFiring       = false;
+    bool _isFiring        = false;
     float _fireProgress   = 1.0f;
     bool  _isReloading    = false;
     float _reloadProgress = 1.0f;
@@ -74,17 +80,22 @@ public class Weapon : MonoBehaviour
     }
 
     /* External Methods */
-    public void TryShoot()
+    public bool TryShoot(bool firstFrame)
     {
+        // Return if semi auto has not been tapped
+        if (!firstFrame)
+            if (_stats.fireMode == FireMode.SemiAutomatic)
+                return false;
+
         // Return if weapon is reloading or firing
         if (_isFiring || _isReloading)
-            return;
+            return false;
 
         // Reload if the weapon has no ammo
         if (_weaponAmmoCurrent == 0)
         {
             TryReload();
-            return;
+            return false;
         }
 
         // Spawn new projectile, set position and lifetime
@@ -113,6 +124,7 @@ public class Weapon : MonoBehaviour
 
         _isFiring = true;
         _fireProgress = 0;
+        return true;
     }
 
     public void TryReload()

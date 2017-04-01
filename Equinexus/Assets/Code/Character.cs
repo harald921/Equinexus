@@ -42,6 +42,7 @@ public class Character : MonoBehaviour
 
     List<GameObject> _weaponsInReach = new List<GameObject>();
 
+    bool firstShot = true;
 
     void Update()
     {
@@ -63,9 +64,11 @@ public class Character : MonoBehaviour
 
         // Shooting
         {
-            if (input.shoot)
-                for (int i = 0; i < _hand.transform.childCount; i++)
-                    _hand.transform.GetChild(i).gameObject.GetComponent<Weapon>().TryShoot();
+            if (input.shoot && _hand.transform.childCount > 0)
+                firstShot = _hand.transform.GetChild(0).gameObject.GetComponent<Weapon>().TryShoot(firstShot);
+
+            else
+                firstShot = true;
         }
 
         // Throwing weapons 

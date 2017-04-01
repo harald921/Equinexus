@@ -237,6 +237,16 @@ Prefab:
       propertyPath: _stats.fireRate
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 114152909156623586, guid: 332051b411f49e64c9bb958ebc559c28,
+        type: 2}
+      propertyPath: _stats.fireMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114152909156623586, guid: 332051b411f49e64c9bb958ebc559c28,
+        type: 2}
+      propertyPath: _sounds.fire
+      value: 
+      objectReference: {fileID: 8300000, guid: 1dfcd1237e7a24840b223ce0867df43d, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 332051b411f49e64c9bb958ebc559c28, type: 2}
   m_IsPrefabParent: 0
