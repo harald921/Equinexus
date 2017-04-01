@@ -53,84 +53,116 @@ public class Character : MonoBehaviour
 
     void HandleInput()
     {
-        // Aiming
+        HandleAiming();
+        HandleMovement();
+        HandleRotation();
+
+        HandleShooting();
+
+        HandleReloading();
+
+        HandleWeaponThrowing();
+
+        HandleWeaponPickUp();
+    }
+
+
+    void HandleMovement()
+    {
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+        rigidbody.AddForce(input.moveDirection.normalized * _stats.baseMoveSpeed);
+    }
+
+    void HandleAiming()
+    {
+        if (_hand.transform.childCount > 0)
+        {
+            if (input.aim) _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = true;
+            else _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = false;
+        }
+    }
+
+    void HandleRotation()
+    {
+        transform.rotation = Quaternion.Slerp(transform.rotation, input.targetRotation, _stats.baseTurnSpeed * Time.deltaTime);
+    }
+
+    void HandleShooting()
+    {
+        if (input.shoot && _hand.transform.childCount > 0)
+            firstShot = _hand.transform.GetChild(0).gameObject.GetComponent<Weapon>().TryShoot(firstShot);
+        else
+            firstShot = true;
+    }
+
+    void HandleReloading()
+    {
+        if (input.reload && _hand.transform.childCount > 0)
+            _hand.transform.GetChild(0).gameObject.GetComponent<Weapon>().TryReload();
+    }
+
+    void HandleWeaponThrowing()
+    {
+        if (input.throwWeapon)
+        {
+            if (_hand.transform.childCount < 1)
+                return;
+            GameObject currentWeaponGO = _hand.transform.GetChild(0).gameObject;
+
+            DropWeapon();
+
+            currentWeaponGO.transform.SetParent(transform.parent);
+            currentWeaponGO.GetComponent<Rigidbody>().AddForce(transform.forward * _stats.throwStrength);
+            currentWeaponGO.GetComponent<Rigidbody>().AddTorque(transform.up * _stats.throwStrength);
+        }
+    }
+
+    void HandleWeaponPickUp()
+    {
+        if (input.use && _weaponsInReach.Count > 0)
         {
             if (_hand.transform.childCount > 0)
             {
-                if (input.aim) _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = true;
-                else           _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = false;
+                // Swap weapons
+                GameObject droppedWeaponGO = DropWeapon();
+
+                droppedWeaponGO.GetComponent<Rigidbody>().AddForce((transform.forward * 100) + (transform.right * 50));
             }
 
-            
-        }
-
-        // Movement
-        {
-            Rigidbody rigidbody = GetComponent<Rigidbody>();
-            rigidbody.AddForce(input.moveDirection.normalized * _stats.baseMoveSpeed);
-        }
-
-        // Aiming
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, input.targetRotation, _stats.baseTurnSpeed * Time.deltaTime);
-        }
-
-        // Shooting
-        {
-            if (input.shoot && _hand.transform.childCount > 0)
-                firstShot = _hand.transform.GetChild(0).gameObject.GetComponent<Weapon>().TryShoot(firstShot);
-
-            else
-                firstShot = true;
-        }
-
-        // Reloading
-        {
-            if (input.reload && _hand.transform.childCount > 0)
-                _hand.transform.GetChild(0).gameObject.GetComponent<Weapon>().TryReload();
-        }
-
-        // Throwing weapons 
-        {
-            if (input.throwWeapon)
-            {
-                GameObject currentWeaponGO = _hand.transform.GetChild(0).gameObject;
-
-                currentWeaponGO.GetComponent<Rigidbody>().isKinematic = false;
-                currentWeaponGO.GetComponent<MeshCollider>().enabled = true;
-                _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = false;
-
-                currentWeaponGO.transform.SetParent(transform.parent);
-                currentWeaponGO.GetComponent<Rigidbody>().AddForce(transform.forward * _stats.throwStrength);
-                currentWeaponGO.GetComponent<Rigidbody>().AddTorque(transform.up * _stats.throwStrength);
-            }
-        }
-
-        // Pick up weapons
-        {
-            if (input.use && _weaponsInReach.Count > 0)
-            {
-                if (_hand.transform.childCount > 0)
-                {
-                    // Swap weapons
-                    _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = false;
-                    GameObject currentWeaponGO = _hand.transform.GetChild(0).gameObject;
-                    currentWeaponGO.GetComponent<Rigidbody>().isKinematic = false;
-                    currentWeaponGO.GetComponent<MeshCollider>().enabled = true;
-                    currentWeaponGO.transform.SetParent(transform.parent);
-                    currentWeaponGO.GetComponent<Rigidbody>().AddForce((transform.forward * 100) + (transform.right * 50));
-                }
-
-                // Pick up weapon
-                _weaponsInReach[0].GetComponent<Rigidbody>().isKinematic = true;
-                _weaponsInReach[0].GetComponent<MeshCollider>().enabled = false;
-                _weaponsInReach[0].transform.SetParent(_hand.transform);
-                _weaponsInReach[0].transform.localEulerAngles = new Vector3(0, 0, 0);
-                _weaponsInReach[0].transform.localPosition = new Vector3(0, 0, 0);
-                _weaponsInReach.RemoveAt(0);
-            }
+            PickUpWeapon(_weaponsInReach[0]);
         }
     }
+
+
+    GameObject DropWeapon()
+    {
+        if (_hand.transform.childCount > 0)
+        {
+            _hand.transform.GetChild(0).gameObject.GetComponent<LineRenderer>().enabled = false;
+            GameObject currentWeaponGO = _hand.transform.GetChild(0).gameObject;
+            currentWeaponGO.GetComponent<Rigidbody>().isKinematic = false;
+            currentWeaponGO.GetComponent<MeshCollider>().enabled = true;
+            currentWeaponGO.transform.SetParent(transform.parent);
+
+            return currentWeaponGO;
+        }
+
+        return null;
+    }
+
+    void PickUpWeapon(GameObject inWeaponToPickup)
+    {
+        inWeaponToPickup.GetComponent<Rigidbody>().isKinematic = true;
+        inWeaponToPickup.GetComponent<MeshCollider>().enabled = false;
+        inWeaponToPickup.transform.SetParent(_hand.transform);
+        inWeaponToPickup.transform.localEulerAngles = new Vector3(0, 0, 0);
+        inWeaponToPickup.transform.localPosition = new Vector3(0, 0, 0);
+
+        _weaponsInReach.Remove(inWeaponToPickup);
+    }
+
+
+
 
     void OnTriggerEnter(Collider col)
     {
