@@ -49,12 +49,13 @@ public class PlayerInput : MonoBehaviour
  *  - Structure: Move all the stuff in Character.HandleInput into own methods so that DRY can be applied
  *  - Structure: Clean up the PlayerUI script. Make it get called rather than the opposite
  *  - Structure: Add a vector of flags to Character, that holds stuff like "IS_AIMING" or "HURT" or whatever. Different states
+ *  - Structure: Separate how characters die into own method
  *  
  *  - Enemies: Implement enemy that shoots at the player from a distance
- *  - Enemies: Implement rusher enemy
  *  - Enemies: Make enemies have two types, metal and biological. One weak to ballistic projectiles, the other to plasma projectiles
  * 
- *  - UI: Make health bar for player and enemies
+ *  - UI: Make world space health bar for player and enemies
+ *  - UI: Make world space progress bar for "generators" that need to be charged up
  *  
  *  - Effects: Add light that flashes when weapons fire
  *  - Effects: Add particle effect to muzzle (Muzzle flash)
@@ -63,8 +64,9 @@ public class PlayerInput : MonoBehaviour
  *  - Weapons: Add plasma weapon
  *  - Weapons: Add grenade which pushes enemies away and deals damage depending on distance
  *  - Weapons: Make weapon recoil when shot
- *  - Weapons: Add bolt action, shotgun, desert eagle and minigun
+ *  - Weapons: Add bolt action, desert eagle and minigun
  *  - Weapons: Add casings that land on the ground around the player
+ *  - Weapons: Change the way hit detection is made to it is explained at: "http://answers.unity3d.com/questions/661326/bullet-goes-through-object.html"
  *  
  *  - Sound: Add footsteps for player and enemies
  *  - Sound: Add shooting sounds for weapons
