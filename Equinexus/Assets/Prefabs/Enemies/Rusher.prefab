@@ -54,7 +54,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4297065229140956}
   - component: {fileID: 33516236074093662}
-  - component: {fileID: 65671840617346918}
   - component: {fileID: 23056859067807656}
   m_Layer: 0
   m_Name: Glasses
@@ -91,7 +90,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1964317620480368}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 9.08}
+  m_LocalPosition: {x: 0.63, y: 1, z: 14.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4753946831509530}
@@ -310,18 +309,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 1
---- !u!65 &65671840617346918
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1575911835312230}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114057158609611762
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -347,7 +334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _team: 0
   _stats:
-    health: 10
+    health: 30
     baseMoveSpeed: 15
     baseTurnSpeed: 15
     throwStrength: 20
