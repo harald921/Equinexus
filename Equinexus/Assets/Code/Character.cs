@@ -66,10 +66,14 @@ public class Character : MonoBehaviour
         HandleInput();
     }
 
+    private void FixedUpdate()
+    {
+        HandleMovement();
+    }
+
     void HandleInput()
     {
         HandleAiming();
-        HandleMovement();
         HandleRotation();
 
         HandleShooting();
@@ -114,7 +118,7 @@ public class Character : MonoBehaviour
     void HandleMovement()
     {
         Rigidbody rigidbody = GetComponent<Rigidbody>();
-        rigidbody.AddForce(input.moveDirection.normalized * _stats.baseMoveSpeed);
+        rigidbody.AddForce(input.moveDirection.normalized * _stats.baseMoveSpeed * Time.deltaTime);
     }
 
     void HandleAiming()

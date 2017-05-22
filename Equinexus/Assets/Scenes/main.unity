@@ -1288,7 +1288,7 @@ MonoBehaviour:
   _team: 1
   _stats:
     health: 10
-    baseMoveSpeed: 20
+    baseMoveSpeed: 16
     baseTurnSpeed: 20
     throwStrength: 1000
   _hand: {fileID: 1517201796}
