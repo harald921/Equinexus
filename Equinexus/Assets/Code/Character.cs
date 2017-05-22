@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Character : MonoBehaviour
 {
+    Color _originalColor;
+
     [SerializeField]
     int _team;
     public int Team
@@ -53,6 +56,10 @@ public class Character : MonoBehaviour
 
     bool firstShot = true;
 
+    private void Start()
+    {
+        _originalColor = GetComponent<MeshRenderer>().material.color;
+    }
 
     void Update()
     {
@@ -79,8 +86,28 @@ public class Character : MonoBehaviour
     {
         _stats.health += healthModifier;
 
+        StartCoroutine("DamageFlash");
+
         if (_stats.health <= 0)
             Destroy(gameObject);
+
+        GetComponent<NavMeshAgent>().velocity = Vector3.zero;
+
+    }
+
+    IEnumerator DamageFlash()
+    {
+        float flashTimer = 1.0f;
+        float flashSpeed = 6.0f;
+        Color originalColor = _originalColor;
+        
+        while (flashTimer > 0.0f)
+        {
+            GetComponent<MeshRenderer>().material.color = Color.Lerp(originalColor, Color.red, flashTimer);
+            flashTimer -= Time.deltaTime * flashSpeed;
+
+            yield return null;
+        }
     }
 
     /* Internal Methods */
